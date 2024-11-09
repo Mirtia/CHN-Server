@@ -6,6 +6,7 @@ URL="https://chn-server-chnserver"
 FEEDS_SERVER="chn-server-hpfeeds3"
 VERSION="1.9.1"
 TAGS=""
+ARCH=""
 
 while getopts ":u:d:a:k:f:h" opt; do
   case ${opt} in
@@ -30,12 +31,6 @@ done
 
 if [ -z "$DEPLOY" ]; then
   echo "Error: DEPLOY (-d) is required."
-  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
-  exit 1
-fi
-
-if [ -z "$ARCH" ]; then
-  echo "Error: ARCH (-a) is required."
   echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
   exit 1
 fi
