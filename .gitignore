@@ -5,3 +5,4 @@ TODO
 mhn/static/mhn.rules
 storage/
 config/sysconfig/
+deploy/
