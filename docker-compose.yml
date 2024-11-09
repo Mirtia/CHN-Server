@@ -12,6 +12,12 @@ services:
     restart: always
 
   hpfeeds3:
+    image: stingar/hpfeeds3:1.9.1
+    ports:
+      - "10000:10000"
+    restart: always
+  
+  hpfeeds-logger:
     image: stingar/hpfeeds-logger:1.9.1
     volumes:
       - ./storage/hpfeeds-logs:/var/log/hpfeeds-logger:z
