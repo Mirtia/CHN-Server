@@ -1,0 +1,4 @@
+ARG DIONAEA_VERSION=latest
+
+FROM stingar/dionaea:${DIONAEA_VERSION}
+

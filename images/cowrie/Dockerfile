@@ -1,0 +1,3 @@
+ARG COWRIE_VERSION=latest
+
+FROM stingar/cowrie:${COWRIE_VERSION}

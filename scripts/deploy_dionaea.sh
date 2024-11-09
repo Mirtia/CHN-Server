@@ -1,15 +1,53 @@
 #!/bin/bash
 
-URL=$1
-DEPLOY=$2
-ARCH=$3
-SERVER=$(echo ${URL} | awk -F/ '{print $3}')
-VERSION=1.9.1
+# https://chn-server-chnserver where chn-server-chnserver is the docker container service name
+URL="https://chn-server-chnserver"
+# chn-server-hpfeeds3 is the docker container service name
+FEEDS_SERVER="chn-server-hpfeeds3"
+VERSION="1.9.1"
 TAGS=""
+
+while getopts ":u:d:a:k:f:h" opt; do
+  case ${opt} in
+    u ) URL=$OPTARG ;;
+    d ) DEPLOY=$OPTARG ;;
+    a ) ARCH=$OPTARG ;;
+    k ) API_KEY=$OPTARG ;;
+    f ) FEEDS_SERVER=$OPTARG ;;
+    h )
+      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      exit 0 ;;
+    \? )
+      echo "Invalid option: -$OPTARG" >&2
+      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      exit 1 ;;
+    : )
+      echo "Option -$OPTARG requires an argument." >&2
+      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      exit 1 ;;
+  esac
+done
+
+if [ -z "$DEPLOY" ]; then
+  echo "Error: DEPLOY (-d) is required."
+  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  exit 1
+fi
+
+if [ -z "$ARCH" ]; then
+  echo "Error: ARCH (-a) is required."
+  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  exit 1
+fi
+
+if [ -z "$API_KEY" ]; then
+  echo "Error: API_KEY (-k) is required."
+  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  exit 1
+fi
 
 echo 'Creating docker compose.yml...'
 cat << EOF > ./docker-compose.yml
-version: '3'
 services:
   dionaea:
     image: stingar/dionaea${ARCH}:${VERSION}
@@ -35,6 +73,10 @@ services:
       - NET_ADMIN
 volumes:
     configs:
+
+networks:
+  chn-network:
+    external: true
 EOF
 echo 'Done!'
 echo 'Creating dionaea.env...'
@@ -63,7 +105,7 @@ DIONAEA_JSON=/etc/dionaea/dionaea.json
 
 # Logging options
 HPFEEDS_ENABLED=true
-FEEDS_SERVER=${SERVER}
+FEEDS_SERVER=${FEEDS_SERVER}
 FEEDS_SERVER_PORT=10000
 
 # Comma separated tags for honeypot
@@ -80,6 +122,10 @@ S3_ACCESS_KEY=access_key
 S3_SECRET_KEY=secret_key
 S3_ENDPOINT=https://s3_server/bucket
 S3_VERIFY=True
+
+# Add API_KEY for REST API
+API_KEY=${API_KEY}
+
 EOF
 echo 'Done!'
 echo ''
