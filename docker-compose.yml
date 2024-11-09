@@ -36,5 +36,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    restart:
-      always
+    restart: always
+
+networks:
+  chn-network:
+    external: true
