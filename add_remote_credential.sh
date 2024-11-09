@@ -13,7 +13,7 @@ SECRET=$(tr -dc _A-Z-a-z-0-9 < /dev/urandom | head -c 20)
 
 echo "Command to run on remote server:"
 echo "********************************"
-echo docker-compose exec hpfeeds3 /app/bin/python3 /src/hpfeeds/add_user.py --owner chn --ident \"${IDENT}\" --secret \"${SECRET}\" --publish \"\" --subscribe \"amun.events,conpot.events,thug.events,beeswarm.hive,dionaea.capture,dionaea.connections,thug.files,beeswarm.feeder,cuckoo.analysis,kippo.sessions,cowrie.sessions,glastopf.events,glastopf.files,mwbinary.dionaea.sensorunique,snort.alerts,wordpot.events,p0f.events,suricata.events,shockpot.events,elastichoney.events,rdphoney.sessions,uhp.events,elasticpot.events,spylex.events,big-hp.events,honeydb-agent.events\" --mongodb-host mongodb --mongodb-port 27017
+echo docker compose exec hpfeeds3 /app/bin/python3 /src/hpfeeds/add_user.py --owner chn --ident \"${IDENT}\" --secret \"${SECRET}\" --publish \"\" --subscribe \"amun.events,conpot.events,thug.events,beeswarm.hive,dionaea.capture,dionaea.connections,thug.files,beeswarm.feeder,cuckoo.analysis,kippo.sessions,cowrie.sessions,glastopf.events,glastopf.files,mwbinary.dionaea.sensorunique,snort.alerts,wordpot.events,p0f.events,suricata.events,shockpot.events,elastichoney.events,rdphoney.sessions,uhp.events,elasticpot.events,spylex.events,big-hp.events,honeydb-agent.events\" --mongodb-host mongodb --mongodb-port 27017
 echo "********************************"
 echo ""
 echo "Config for a new hpfeeds-logger.env to listen on local server:"
@@ -25,7 +25,7 @@ cat << EOF
 MONGODB_HOST=mongodb
 MONGODB_PORT=27017
 # Log to local file; the path is internal to the container and the host filesystem
-# location is controlled by volume mapping in the docker-compose.yml
+# location is controlled by volume mapping in the docker compose.yml
 FILELOG_ENABLED=true
 LOG_FILE=/var/log/hpfeeds-logger/chn-splunk.log
 # Choose to rotate the log file based on 'size'(default), 'time', or 'none'

@@ -7,8 +7,8 @@ SERVER=$(echo ${URL} | awk -F/ '{print $3}')
 VERSION=1.9.1
 TAGS=""
 
-echo 'Creating docker-compose.yml...'
-cat << EOF > ./docker-compose.yml
+echo 'Creating docker compose.yml...'
+cat << EOF > ./docker compose.yml
 version: '3'
 services:
     uhp:
@@ -61,5 +61,5 @@ EOF
 echo 'Done!'
 echo ''
 echo ''
-echo 'Type "docker-compose ps" to confirm your honeypot is running'
-echo 'You may type "docker-compose logs" to get any error or informational logs from your honeypot'
+echo 'Type "docker compose ps" to confirm your honeypot is running'
+echo 'You may type "docker compose logs" to get any error or informational logs from your honeypot'
