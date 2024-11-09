@@ -1,4 +1,3 @@
-version: '2'
 services:
   mongodb:
     image: mongo:3.4.24-xenial
@@ -10,15 +9,11 @@ services:
       - ./storage/redis:/data:z
   hpfeeds3:
     image: stingar/hpfeeds3:1.9
-    links:
-      - mongodb:mongodb
     ports:
       - "10000:10000"
   mnemosyne:
     image: stingar/mnemosyne:1.9
-    links:
-      - mongodb:mongodb
-      - hpfeeds3:hpfeeds3
+
   chnserver:
     build:
       context: .
@@ -28,7 +23,7 @@ services:
       - ./config/collector:/etc/collector:z
       - ./storage/chnserver/sqlite:/opt/sqlite:z
       - ./certs:/tls:z
-    links:
+    depends_on:
       - mongodb:mongodb
       - redis:redis
       - hpfeeds3:hpfeeds3
