@@ -76,7 +76,7 @@ IP_ADDRESS=
 CHN_SERVER=${URL}
 
 # Server to stream data to
-FEEDS_SERVER=${SERVER}
+FEEDS_SERVER=${FEEDS_SERVER}
 FEEDS_SERVER_PORT=10000
 
 # Deploy key from the FEEDS_SERVER administrator
