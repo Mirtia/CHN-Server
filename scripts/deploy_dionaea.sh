@@ -8,7 +8,7 @@ VERSION=1.9.1
 TAGS=""
 
 echo 'Creating docker compose.yml...'
-cat << EOF > ./docker compose.yml
+cat << EOF > ./docker-compose.yml
 version: '3'
 services:
   dionaea:
