@@ -127,15 +127,8 @@ def create_clean_db():
         from mhn.api.models import DeployScript
         # Creating a initial deploy scripts.
         deployscripts = {
-            'Default - Conpot': os.path.abspath('./scripts/deploy_conpot.sh'),
             'Default - Dionaea': os.path.abspath('./scripts/deploy_dionaea.sh'),
             'Default - Cowrie': os.path.abspath('./scripts/deploy_cowrie.sh'),
-            'Default - RDPHoney': os.path.abspath('./scripts/deploy_rdphoney.sh'),
-            'Default - UHP': os.path.abspath('./scripts/deploy_uhp.sh'),
-            'Default - Elasticpot': os.path.abspath('./scripts/deploy_elasticpot.sh'),
-            'Default - BigHP': os.path.abspath('./scripts/deploy_big-hp.sh'),
-            'Default - ssh-auth-logger': os.path.abspath('./scripts/deploy_ssh-auth-logger.sh'),
-            'Default - Honeydb-Agent': os.path.abspath('./scripts/deploy_honeydb-agent.sh')
         }
         for honeypot, deploypath in sorted(deployscripts.items()):
             with open(deploypath, 'r') as deployfile:
@@ -186,15 +179,8 @@ def reload_scripts():
     custom_path = './custom_scripts/'
 
     deployscripts = {
-        'Default - Conpot': os.path.abspath('./scripts/deploy_conpot.sh'),
         'Default - Dionaea': os.path.abspath('./scripts/deploy_dionaea.sh'),
         'Default - Cowrie': os.path.abspath('./scripts/deploy_cowrie.sh'),
-        'Default - RDPHoney': os.path.abspath('./scripts/deploy_rdphoney.sh'),
-        'Default - UHP': os.path.abspath('./scripts/deploy_uhp.sh'),
-        'Default - Elasticpot': os.path.abspath('./scripts/deploy_elasticpot.sh'),
-        'Default - BigHP': os.path.abspath('./scripts/deploy_big-hp.sh'),
-        'Default - ssh-auth-logger': os.path.abspath('./scripts/deploy_ssh-auth-logger.sh'),
-        'Default - Honeydb-Agent': os.path.abspath('./scripts/deploy_honeydb-agent.sh')
     }
 
     f = []

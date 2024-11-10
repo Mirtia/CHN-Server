@@ -31,8 +31,11 @@
         </div>
         <div class="row">
             <div class="small-12 small-centered columns">
-                <p><kbd>sudo wget "{{ settings.server_url }}/api/script/?text=true&script_id={{ script.id }}" -O deploy.sh &&
-                    sudo bash deploy.sh {{ settings.server_url }} {{ settings.deploy_key }} {{ arch }} && sudo docker-compose up -d</kbd>
+                <p>
+                    <kbd>
+                        wget --no-check-certificate "{{ settings.server_url }}/api/script/?text=true&script_id={{ script.id }}" -O deploy_{{ settings.deploy_key }}.sh &&
+                        bash deploy_{{ settings.deploy_key }}.sh -d "{{ settings.deploy_key }}" -a "{{ arch }}" -k {{ apikey.api_key }} && docker compose up -d
+                    </kbd>
                 </p>
             </div>
         </div>

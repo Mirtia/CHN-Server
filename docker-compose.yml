@@ -1,37 +1,67 @@
-version: '2'
 services:
   mongodb:
     image: mongo:3.4.24-xenial
     volumes:
       - ./storage/mongodb:/data/db:z
+    restart: always
+    networks:
+      - chn-network
+
   redis:
     image: redis:alpine
     volumes:
       - ./storage/redis:/data:z
+    restart: always
+    networks:
+      - chn-network
+
   hpfeeds3:
-    image: stingar/hpfeeds3:1.9
-    links:
-      - mongodb:mongodb
+    image: stingar/hpfeeds3:1.9.1
     ports:
       - "10000:10000"
+    restart: always
+    networks:
+      - chn-network
+    # For ease of use
+    hostname: chn-hpfeeds3
+
+  hpfeeds-logger:
+    image: stingar/hpfeeds-logger:1.9.1
+    volumes:
+      - ./storage/hpfeeds-logs:/var/log/hpfeeds-logger:z
+    env_file:
+      - config/sysconfig/hpfeeds-logger.env
+    restart: always
+    networks:
+      - chn-network
+
+
   mnemosyne:
-    image: stingar/mnemosyne:1.9
-    links:
-      - mongodb:mongodb
-      - hpfeeds3:hpfeeds3
+    image: stingar/mnemosyne:1.9.1
+    env_file:
+      - ./config/sysconfig/mnemosyne.env
+    restart: always
+    networks:
+      - chn-network
+
   chnserver:
     build:
       context: .
     env_file:
-      - .development.env
+      - ./config/sysconfig/chnserver.env
     volumes:
-      - ./config/collector:/etc/collector:z
       - ./storage/chnserver/sqlite:/opt/sqlite:z
-      - ./certs:/tls:z
-    links:
-      - mongodb:mongodb
-      - redis:redis
-      - hpfeeds3:hpfeeds3
+      - ./certs:/etc/letsencrypt:z
     ports:
       - "80:80"
       - "443:443"
+    restart: always
+    networks:
+      - chn-network
+    # For ease of use
+    hostname: chn-server
+
+
+networks:
+  chn-network:
+    external: true

@@ -1,0 +1,10 @@
+  hpfeeds-logger:
+    image: stingar/hpfeeds-logger:1.9.1
+    volumes:
+      - ./storage/hpfeeds-logs:/var/log/hpfeeds-logger:z
+    env_file:
+      - config/sysconfig/hpfeeds-logger.env
+    links:
+      - hpfeeds3:hpfeeds3
+      - mongodb:mongodb
+    restart: always
