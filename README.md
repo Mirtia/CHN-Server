@@ -7,3 +7,8 @@ CHN-Server
 Find the documentation here: [https://communityhoneynetwork.readthedocs.io](https://communityhoneynetwork.readthedocs.io)
 
 ![CI](https://github.com/CommunityHoneyNetwork/CHN-Server/workflows/CI/badge.svg)
+
+## TODO
+
+- [ ] Add replicas support (good for automation) `or` generate multiple compose files: cowrie-1, cowrie-2 with increasing assigned range 
+- [ ] See issue with deploy-key `or` maybe remove the deploy-key entirely, see how you can integrate the script
