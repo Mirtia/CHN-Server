@@ -10,4 +10,4 @@ python configure_env.py
 docker network create chn-network
 
 # Then compose
-docker compose up -d
+docker compose up -d --build
