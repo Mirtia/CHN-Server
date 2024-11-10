@@ -66,6 +66,9 @@ services:
       - dionaea.env
     cap_add:
       - NET_ADMIN
+    networks:
+    - chn-network
+
 volumes:
     configs:
 

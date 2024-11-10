@@ -4,19 +4,27 @@ services:
     volumes:
       - ./storage/mongodb:/data/db:z
     restart: always
+    networks:
+      - chn-network
 
   redis:
     image: redis:alpine
     volumes:
       - ./storage/redis:/data:z
     restart: always
+    networks:
+      - chn-network
 
   hpfeeds3:
     image: stingar/hpfeeds3:1.9.1
     ports:
       - "10000:10000"
     restart: always
-  
+    networks:
+      - chn-network
+    # For ease of use
+    hostname: chn-hpfeeds3
+
   hpfeeds-logger:
     image: stingar/hpfeeds-logger:1.9.1
     volumes:
@@ -24,12 +32,17 @@ services:
     env_file:
       - config/sysconfig/hpfeeds-logger.env
     restart: always
+    networks:
+      - chn-network
+
 
   mnemosyne:
     image: stingar/mnemosyne:1.9.1
     env_file:
       - ./config/sysconfig/mnemosyne.env
     restart: always
+    networks:
+      - chn-network
 
   chnserver:
     build:
@@ -43,6 +56,11 @@ services:
       - "80:80"
       - "443:443"
     restart: always
+    networks:
+      - chn-network
+    # For ease of use
+    hostname: chn-server
+
 
 networks:
   chn-network:

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # https://chn-server-chnserver where chn-server-chnserver is the docker container service name
-URL="https://chn-server-chnserver"
+URL="https://chn-server"
 # chn-server-hpfeeds3 is the docker container service name
-FEEDS_SERVER="chn-server-hpfeeds3"
+FEEDS_SERVER="chn-hpfeeds3"
 VERSION="1.9.1"
 TAGS=""
 ARCH=""
@@ -45,7 +45,7 @@ echo 'Creating docker compose.yml...'
 cat << EOF > ./docker-compose.yml
 services:
   cowrie:
-    image: stingar/cowrie${ARCH}:${VERSION}
+    image: mirtia/chn-cowrie${ARCH}:${VERSION}
     restart: always
     volumes:
       - configs:/etc/cowrie
@@ -54,6 +54,9 @@ services:
       - "23:2223"
     env_file:
       - cowrie.env
+    networks:
+    - chn-network
+
 volumes:
     configs:
 
