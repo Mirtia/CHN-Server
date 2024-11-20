@@ -41,7 +41,7 @@ if [ -z "$API_KEY" ]; then
   exit 1
 fi
 
-echo 'Creating docker compose.yml...'
+echo 'Creating docker-compose.yml...'
 cat << EOF > ./docker-compose.yml
 services:
   dionaea:
@@ -67,7 +67,7 @@ services:
     cap_add:
       - NET_ADMIN
     networks:
-    - chn-network
+      - chn-network
 
 volumes:
     configs:

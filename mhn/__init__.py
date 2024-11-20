@@ -129,6 +129,8 @@ def create_clean_db():
         deployscripts = {
             'Default - Dionaea': os.path.abspath('./scripts/deploy_dionaea.sh'),
             'Default - Cowrie': os.path.abspath('./scripts/deploy_cowrie.sh'),
+            'Default - Cowrie - Replicas': os.path.abspath('./scripts/deploy_cowrie_replicas.sh'),
+            'Default - Dionaea - Replicas': os.path.abspath('./scripts/deploy_dionaea_replicas.sh')
         }
         for honeypot, deploypath in sorted(deployscripts.items()):
             with open(deploypath, 'r') as deployfile:
@@ -181,6 +183,8 @@ def reload_scripts():
     deployscripts = {
         'Default - Dionaea': os.path.abspath('./scripts/deploy_dionaea.sh'),
         'Default - Cowrie': os.path.abspath('./scripts/deploy_cowrie.sh'),
+        'Default - Cowrie - Replicas': os.path.abspath('./scripts/deploy_cowrie_replicas.sh'),
+        'Default - Dionaea - Replicas': os.path.abspath('./scripts/deploy_dionaea_replicas.sh')
     }
 
     f = []

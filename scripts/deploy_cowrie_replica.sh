@@ -54,6 +54,8 @@ services:
       - "23:2223"
     env_file:
       - cowrie.env
+    deploy:
+      replicas: 10
     networks:
       - chn-network
 

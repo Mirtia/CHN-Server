@@ -18,6 +18,7 @@ straightforward as possible.
 - Added `/templates` folder from `chn-quickstart`.
 - Pushed new cowrie image at [Docker Hub](https://hub.docker.com/repository/docker/mirtia/chn-cowrie/general) for `linux/amd64`. 
 - Pushed new cowrie image at [Docker Hub](https://hub.docker.com/repository/docker/mirtia/chn-cowrie-arm/general) for `linux/arm/v7`.
+- Added `deploy_cowrie_replicas.sh` and `depoy_dionaea_replicas.sh` for automation of deployment of multiple honeypots.
 
 ### Changed
 - Removed all `sudo` related commands from the `manage-deploy` (no reason to specify sudo in any part of the setup). 
@@ -31,3 +32,4 @@ straightforward as possible.
 ### Fixed
 - Added `--no-check-certificate` on the `wget` command in the `manage-deploy` view.
 - Created a Dockerfile in `/images` for cowrie that pulls the original image `stingar/cowrie` and adds the correct `entrypoint.sh` and `chn-register.py` scripts.
+- Identation issue at deploy script reported.
