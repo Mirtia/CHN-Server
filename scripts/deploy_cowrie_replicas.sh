@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # https://chn-server-chnserver where chn-server-chnserver is the docker container service name
-URL="https://chn-server-chnserver"
+URL="https://chn-server"
 # chn-server-hpfeeds3 is the docker container service name
-FEEDS_SERVER="chn-server-hpfeeds3"
+FEEDS_SERVER="chn-hpfeeds3"
 VERSION="1.9.1"
 TAGS=""
 ARCH=""
@@ -44,30 +44,18 @@ fi
 echo 'Creating docker-compose.yml...'
 cat << EOF > ./docker-compose.yml
 services:
-  dionaea:
-    image: stingar/dionaea${ARCH}:${VERSION}
+  cowrie:
+    image: mirtia/chn-cowrie${ARCH}:${VERSION}
     restart: always
     volumes:
-      - configs:/etc/dionaea/
+      - configs:/etc/cowrie
     ports:
-      - "21:21"
-      - "23:23"
-      - "42:42"
-      - "135:135"
-      - "445:445"
-      - "1433:1433"
-      - "1723:1723"
-      - "1883:1883"
-      - "3306:3306"
-      - "5060:5060"
-      - "11211:11211"
-      - "27017:27017"
+      - "22-32:2222"
+      - "3333-3343:2223"
     env_file:
-      - dionaea.env
+      - cowrie.env
     deploy:
       replicas: 10
-    cap_add:
-      - NET_ADMIN
     networks:
       - chn-network
 
@@ -79,8 +67,8 @@ networks:
     external: true
 EOF
 echo 'Done!'
-echo 'Creating dionaea.env...'
-cat << EOF > dionaea.env
+echo 'Creating cowrie.env...'
+cat << EOF > cowrie.env
 # This can be modified to change the default setup of the unattended installation
 
 DEBUG=false
@@ -89,32 +77,42 @@ DEBUG=false
 # Leaving this blank will default to the docker container IP
 IP_ADDRESS=
 
+# CHN Server api to register to
 CHN_SERVER=${URL}
-DEPLOY_KEY=${DEPLOY}
 
-# Network options
-LISTEN_ADDRESSES=0.0.0.0
-LISTEN_INTERFACES=eth0
-
-
-# Service options
-# blackhole, epmap, ftp, http, memcache, mirror, mongo, mqtt, mssql, mysql, pptp, sip, smb, tftp, upnp
-SERVICES=(blackhole epmap ftp http memcache mirror mongo mqtt pptp sip smb tftp upnp)
-
-DIONAEA_JSON=/etc/dionaea/dionaea.json
-
-# Logging options
-HPFEEDS_ENABLED=true
+# Server to stream data to
 FEEDS_SERVER=${FEEDS_SERVER}
 FEEDS_SERVER_PORT=10000
 
-# Comma separated tags for honeypot
+# Deploy key from the FEEDS_SERVER administrator
+# This is a REQUIRED value
+DEPLOY_KEY=${DEPLOY}
+
+# Registration information file
+# If running in a container, this needs to persist
+COWRIE_JSON=/etc/cowrie/cowrie.json
+
+# SSH Listen Port
+# Can be set to 22 for deployments on real servers
+# or left at 2222 and have the port mapped if deployed
+# in a container
+SSH_LISTEN_PORT=2222
+
+# Telnet Listen Port
+# Can be set to 23 for deployments on real servers
+# or left at 2223 and have the port mapped if deployed
+# in a container
+TELNET_LISTEN_PORT=2223
+
+# double quotes, comma delimited tags may be specified, which will be included
+# as a field in the hpfeeds output. Use cases include tagging provider
+# infrastructure the sensor lives in, geographic location for the sensor, etc.
 TAGS=${TAGS}
 
-# A specific "personality" directory for the dionaea honeypot may be specified
-# here. These directories can include custom dionaea.cfg and service configurations
-# files which can influence the attractiveness of the honeypot.
-PERSONALITY=""
+# A specific "personality" directory for the Cowrie honeypot may be specified
+# here. These directories can include custom fs.pickle, cowrie.cfg, txtcmds and
+# userdb.txt files which can influence the attractiveness of the honeypot.
+PERSONALITY=default
 
 # Configure your dionaea honeypot to upload any files downloaded from attackers to an S3-compatible object store
 S3_OUTPUT_ENABLED=false

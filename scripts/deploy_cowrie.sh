@@ -94,13 +94,13 @@ COWRIE_JSON=/etc/cowrie/cowrie.json
 # Can be set to 22 for deployments on real servers
 # or left at 2222 and have the port mapped if deployed
 # in a container
-SSH_LISTEN_PORT=22
+SSH_LISTEN_PORT=2222
 
 # Telnet Listen Port
 # Can be set to 23 for deployments on real servers
 # or left at 2223 and have the port mapped if deployed
 # in a container
-TELNET_LISTEN_PORT=23
+TELNET_LISTEN_PORT=2223
 
 # double quotes, comma delimited tags may be specified, which will be included
 # as a field in the hpfeeds output. Use cases include tagging provider
