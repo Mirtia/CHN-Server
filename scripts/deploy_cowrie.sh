@@ -55,7 +55,7 @@ services:
     env_file:
       - cowrie.env
     networks:
-    - chn-network
+      - chn-network
 
 volumes:
     configs:
