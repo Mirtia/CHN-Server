@@ -7,6 +7,8 @@ FEEDS_SERVER="chn-server-hpfeeds3"
 VERSION="1.9.1"
 TAGS=""
 ARCH=""
+# Default instance count
+INSTANCE_COUNT=10
 
 while getopts ":u:d:a:k:f:i:h" opt; do
   case ${opt} in

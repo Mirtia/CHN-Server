@@ -42,7 +42,8 @@ def main():
 
     args = parse_args()
     name = "%s-%s" % (args.hostname, args.honeypot)
-    overwrite = False
+    # Force register
+    overwrite = True
     if os.path.exists(args.state_output):
         logging.debug("Registration file exists, making sure it's valid")
         try:
