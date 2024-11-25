@@ -76,6 +76,7 @@ main () {
       -r /code/cowrie.reference.cfg \
       -o /opt/cowrie/etc/cowrie.cfg
 
+    /opt/cowrie/bin/cowrie stop || echo "No existing Cowrie instance to stop."
     /opt/cowrie/bin/cowrie start --nodaemon
 }
 

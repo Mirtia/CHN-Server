@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 This is not a real changelog. We just use it to keep track of what changes we 
 made to the original repository as this is a forked one.
  
-## [Unreleased] - 2024-11-10
+## [Unreleased] - 2024-11-25
  
 Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
@@ -18,6 +18,9 @@ straightforward as possible.
 - Added `/templates` folder from `chn-quickstart`.
 - Pushed new cowrie image at [Docker Hub](https://hub.docker.com/repository/docker/mirtia/chn-cowrie/general) for `linux/amd64`. 
 - Pushed new cowrie image at [Docker Hub](https://hub.docker.com/repository/docker/mirtia/chn-cowrie-arm/general) for `linux/arm/v7`.
+- Added `deploy_cowrie_replicas.sh` and `depoy_dionaea_replicas.sh` for automation of deployment of multiple honeypots.
+- Added some cowrie config files to `images` folder. May be useful for next steps.
+- Added option to accept `INSTANCE_NUMBER` to the interface.
 
 ### Changed
 - Removed all `sudo` related commands from the `manage-deploy` (no reason to specify sudo in any part of the setup). 
@@ -31,3 +34,6 @@ straightforward as possible.
 ### Fixed
 - Added `--no-check-certificate` on the `wget` command in the `manage-deploy` view.
 - Created a Dockerfile in `/images` for cowrie that pulls the original image `stingar/cowrie` and adds the correct `entrypoint.sh` and `chn-register.py` scripts.
+- Identation issue at deploy script reported.
+- Replaced `replica` with loop, so that each instance can have its own `.env` file.
+- Added command to stop `cowrie` at entrypoint to mitigate issue with `Another twistd server is running`.

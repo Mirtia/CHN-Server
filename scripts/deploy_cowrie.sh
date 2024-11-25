@@ -41,7 +41,7 @@ if [ -z "$API_KEY" ]; then
   exit 1
 fi
 
-echo 'Creating docker compose.yml...'
+echo 'Creating docker-compose.yml...'
 cat << EOF > ./docker-compose.yml
 services:
   cowrie:
@@ -55,7 +55,7 @@ services:
     env_file:
       - cowrie.env
     networks:
-    - chn-network
+      - chn-network
 
 volumes:
     configs:
