@@ -150,7 +150,7 @@ def add_sensor():
 def deploy_mgmt():
     script_id = request.args.get("script_id")
     arch_id = request.args.get("arch_id")
-    instance_id = request.args.get("instance_id")
+    instance_id = request.args.get("instance_id", 10)
     arch = ""
 
     if arch_id == "1":
