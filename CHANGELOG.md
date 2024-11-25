@@ -33,3 +33,5 @@ straightforward as possible.
 - Added `--no-check-certificate` on the `wget` command in the `manage-deploy` view.
 - Created a Dockerfile in `/images` for cowrie that pulls the original image `stingar/cowrie` and adds the correct `entrypoint.sh` and `chn-register.py` scripts.
 - Identation issue at deploy script reported.
+- Replaced `replica` with loop, so that each instance can have its own `.env` file.
+- Added command to stop `cowrie` at entrypoint to mitigate issue with `Another twistd server is running`.
