@@ -16,28 +16,28 @@ while getopts ":u:d:a:k:f:h" opt; do
     k ) API_KEY=$OPTARG ;;
     f ) FEEDS_SERVER=$OPTARG ;;
     h )
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
       exit 0 ;;
     \? )
       echo "Invalid option: -$OPTARG" >&2
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
       exit 1 ;;
     : )
       echo "Option -$OPTARG requires an argument." >&2
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
       exit 1 ;;
   esac
 done
 
 if [ -z "$DEPLOY" ]; then
   echo "Error: DEPLOY (-d) is required."
-  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
   exit 1
 fi
 
 if [ -z "$API_KEY" ]; then
   echo "Error: API_KEY (-k) is required."
-  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
   exit 1
 fi
 
@@ -45,7 +45,7 @@ echo 'Creating docker-compose.yml...'
 cat << EOF > ./docker-compose.yml
 services:
   dionaea:
-    image: stingar/dionaea${ARCH}:${VERSION}
+    image: stingar/dionaea:${VERSION}
     restart: always
     volumes:
       - configs:/etc/dionaea/

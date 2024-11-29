@@ -14,33 +14,32 @@ while getopts ":u:d:a:k:f:i:h" opt; do
   case ${opt} in
     u ) URL=$OPTARG ;;
     d ) DEPLOY=$OPTARG ;;
-    a ) ARCH=$OPTARG ;;
     k ) API_KEY=$OPTARG ;;
     f ) FEEDS_SERVER=$OPTARG ;;
     i ) INSTANCE_COUNT=$OPTARG ;;
     h )
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY -i INSTANCE_COUNT  [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY -i INSTANCE_COUNT  [-u URL] [-f FEEDS_SERVER]"
       exit 0 ;;
     \? )
       echo "Invalid option: -$OPTARG" >&2
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY -i INSTANCE_COUNT  [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY -i INSTANCE_COUNT  [-u URL] [-f FEEDS_SERVER]"
       exit 1 ;;
     : )
       echo "Option -$OPTARG requires an argument." >&2
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY -i INSTANCE_COUNT  [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY -i INSTANCE_COUNT  [-u URL] [-f FEEDS_SERVER]"
       exit 1 ;;
   esac
 done
 
 if [ -z "$DEPLOY" ]; then
   echo "Error: DEPLOY (-d) is required."
-  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
   exit 1
 fi
 
 if [ -z "$API_KEY" ]; then
   echo "Error: API_KEY (-k) is required."
-  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
   exit 1
 fi
 
@@ -49,7 +48,7 @@ for ((i=1; i<=INSTANCE_COUNT; i++)); do
   cat << EOF > ./docker-compose-${i}.yml
 services:
   cowrie-${i}:
-    image: mirtia/chn-cowrie${ARCH}:${VERSION}
+    image: mirtia/chn-cowrie:${VERSION}
     restart: always
     volumes:
       - configs${i}:/etc/cowrie
