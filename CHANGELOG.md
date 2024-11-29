@@ -21,6 +21,7 @@ straightforward as possible.
 - Added `deploy_cowrie_replicas.sh` and `depoy_dionaea_replicas.sh` for automation of deployment of multiple honeypots.
 - Added some cowrie config files to `images` folder. May be useful for next steps.
 - Added option to accept `INSTANCE_NUMBER` to the interface.
+- Pushed images under same repository, simplified `Dockerfile`.
 
 ### Changed
 - Removed all `sudo` related commands from the `manage-deploy` (no reason to specify sudo in any part of the setup). 
