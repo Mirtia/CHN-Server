@@ -10,6 +10,7 @@ Find the documentation here: [https://communityhoneynetwork.readthedocs.io](http
 
 ## TODO
 
-- [ ] Add replicas support (good for automation) `or` generate multiple compose files: *cowrie-1*, *cowrie-2* with increasing assigned range. I already have some silly scripts that I can improve.
-- [ ] See issue with deploy-key `or` maybe remove the deploy-key entirely, see how you can integrate the script Danae made.
+- [x] Add replicas support (good for automation) `or` generate multiple compose files: *cowrie-1*, *cowrie-2* with increasing assigned range. I already have some silly scripts that I can improve.
+- [x] See issue with deploy-key `or` maybe remove the deploy-key entirely. (There is no reason for that).
+- [ ] Set default config for `cowrie` for ease of testing.
 - [ ] [Known hosts for the containers](https://www.linkedin.com/pulse/learn-how-access-docker-container-its-name-from-host-renato-rodrigues/) May be useful when trying out the botnet.
