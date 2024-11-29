@@ -149,7 +149,7 @@ def add_sensor():
 @login_required
 def deploy_mgmt():
     script_id = request.args.get("script_id")
-    instance_id = request.args.get("instance_id", 10)
+    instance_id = request.args.get("instance_id", None)
 
     if not script_id or script_id == "0":
         script = Script(name="", notes="", script="")

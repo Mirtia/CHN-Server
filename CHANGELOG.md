@@ -31,6 +31,7 @@ straightforward as possible.
 - Modified the `docker-compose.yml` of chn-server (root directory of the repository). Removed the links, added some hostnames for ease of use.
 - Removed `version` from `docker-compose`, as it is not needed.
 - Modified the deploy scripts (`/scripts`) to accept the necessary arguments and parameters (`API_KEY`).
+- Removed `ARCH` flag from deploy scripts.
 
 ### Fixed
 - Added `--no-check-certificate` on the `wget` command in the `manage-deploy` view.
@@ -38,3 +39,4 @@ straightforward as possible.
 - Identation issue at deploy script reported.
 - Replaced `replica` with loop, so that each instance can have its own `.env` file.
 - Added command to stop `cowrie` at entrypoint to mitigate issue with `Another twistd server is running`.
+- Removed instace `-i` argument when instances are specified to `None` which is now the default value.
