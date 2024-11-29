@@ -1,7 +1,6 @@
 ARG COWRIE_VERSION=latest
-ARG ARCH=""
 
-FROM stingar/cowrie${ARCH}:${COWRIE_VERSION}
+FROM stingar/cowrie:${COWRIE_VERSION}
 
 COPY chn-register.py /code/
 COPY entrypoint.sh /code/

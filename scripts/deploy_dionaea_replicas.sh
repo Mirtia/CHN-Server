@@ -10,7 +10,7 @@ ARCH=""
 # Default instance count
 INSTANCE_COUNT=10
 
-while getopts ":u:d:a:k:f:i:h" opt; do
+while getopts ":u:d:k:f:i:h" opt; do
   case ${opt} in
     u ) URL=$OPTARG ;;
     d ) DEPLOY=$OPTARG ;;
@@ -19,28 +19,28 @@ while getopts ":u:d:a:k:f:i:h" opt; do
     f ) FEEDS_SERVER=$OPTARG ;;
     i ) INSTANCE_COUNT=$OPTARG ;;
     h )
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
       exit 0 ;;
     \? )
       echo "Invalid option: -$OPTARG" >&2
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
       exit 1 ;;
     : )
       echo "Option -$OPTARG requires an argument." >&2
-      echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+      echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
       exit 1 ;;
   esac
 done
 
 if [ -z "$DEPLOY" ]; then
   echo "Error: DEPLOY (-d) is required."
-  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
   exit 1
 fi
 
 if [ -z "$API_KEY" ]; then
   echo "Error: API_KEY (-k) is required."
-  echo "Usage: $0 -d DEPLOY -a ARCH -k API_KEY [-u URL] [-f FEEDS_SERVER]"
+  echo "Usage: $0 -d DEPLOY -k API_KEY [-u URL] [-f FEEDS_SERVER]"
   exit 1
 fi
 
@@ -49,7 +49,7 @@ for ((i=1; i<=INSTANCE_COUNT; i++)); do
   cat << EOF > ./docker-compose-${i}.yml
 services:
   dionaea-${i}:
-    image: stingar/dionaea${ARCH}:${VERSION}
+    image: stingar/dionaea:${VERSION}
     restart: always
     volumes:
       - configs-${i}:/etc/dionaea/

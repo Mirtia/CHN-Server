@@ -149,12 +149,8 @@ def add_sensor():
 @login_required
 def deploy_mgmt():
     script_id = request.args.get("script_id")
-    arch_id = request.args.get("arch_id")
-    instance_id = request.args.get("instance_id", 10)
-    arch = ""
+    instance_id = request.args.get("instance_id", None)
 
-    if arch_id == "1":
-        arch = "-arm"
     if not script_id or script_id == "0":
         script = Script(name="", notes="", script="")
     else:
@@ -163,7 +159,6 @@ def deploy_mgmt():
         "ui/script.html",
         scripts=Script.query.order_by(Script.date.desc()),
         script=script,
-        arch=arch,
         instance=instance_id,
         apikey=ApiKey.query.filter_by(user_id=current_user.id).first(),
     )
