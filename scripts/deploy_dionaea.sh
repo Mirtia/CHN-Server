@@ -8,7 +8,7 @@ VERSION="1.9.1"
 TAGS=""
 ARCH=""
 
-while getopts ":u:d:a:k:f:h" opt; do
+while getopts ":u:d:k:f:h" opt; do
   case ${opt} in
     u ) URL=$OPTARG ;;
     d ) DEPLOY=$OPTARG ;;

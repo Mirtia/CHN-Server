@@ -10,7 +10,7 @@ ARCH=""
 # Default instance count
 INSTANCE_COUNT=10
 
-while getopts ":u:d:a:k:f:i:h" opt; do
+while getopts ":u:d:k:f:i:h" opt; do
   case ${opt} in
     u ) URL=$OPTARG ;;
     d ) DEPLOY=$OPTARG ;;
