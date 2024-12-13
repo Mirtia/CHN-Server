@@ -32,6 +32,7 @@ straightforward as possible.
 - Removed `version` from `docker-compose`, as it is not needed.
 - Modified the deploy scripts (`/scripts`) to accept the necessary arguments and parameters (`API_KEY`).
 - Removed `ARCH` flag from deploy scripts.
+- Added the option for outbound traffic to the configuration files. Modified `Dockerfile` and pushed new images.
 
 ### Fixed
 - Added `--no-check-certificate` on the `wget` command in the `manage-deploy` view.
