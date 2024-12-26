@@ -1,0 +1,20 @@
+services:
+  victim-static:
+    image: nginx:latest
+    container_name: static-victim
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./logs:/var/log/nginx
+    networks:
+      - victim-network
+    # Putting hardware limits
+    mem_limit: 256m 
+    cpus: "0.5"
+    restart: always
+
+networks:
+  victim-network:
+    external: true

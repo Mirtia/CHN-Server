@@ -1,0 +1,17 @@
+services:
+  victim-baseline:
+    build:
+      context: .
+    container_name: baseline-victim
+    ports:
+      - "5000:5000"
+    networks:
+      - victim-network
+    # Putting hardware limits
+    mem_limit: 256m 
+    cpus: "0.5"
+    restart: always
+    
+networks:
+  victim-network:
+    external: true

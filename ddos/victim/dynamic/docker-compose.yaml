@@ -1,0 +1,17 @@
+services:
+  victim-dynamic:
+    build:
+      context: .
+    container_name: dynamic-victim
+    ports:
+      - "5001:5000"
+    networks:
+      - victim-network
+    # Putting hardware limits
+    mem_limit: 256m 
+    cpus: "0.5"
+    restart: always
+    
+networks:
+  victim-network:
+    external: true
