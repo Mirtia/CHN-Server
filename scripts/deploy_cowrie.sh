@@ -49,7 +49,7 @@ services:
     restart: always
     volumes:
       - configs:/etc/cowrie
-      - ./data${i}:/data
+      - ./data:/data
     ports:
       - "2222:2222"
       - "23:2223"
