@@ -5,7 +5,10 @@ LABEL summary="Cowrie HoneyPot container"
 LABEL description="Cowrie is a medium interaction SSH and Telnet honeypot designed to log brute force attacks and the shell interaction performed by the attacker."
 LABEL authoritative-source-url="https://github.com/CommunityHoneyNetwork/communityhoneynetwork"
 
-RUN mkdir -p /code /data /etc/cowrie
+RUN mkdir -p /data/logs
+RUN mkdir -p /data/state/{tty,downloads}
+
+RUN mkdir -p /code /etc/cowrie
 
 COPY chn-register.py /code/
 COPY entrypoint.sh /code/
@@ -42,6 +45,15 @@ RUN rm -rf /opt/cowrie/.git \
 # Not sure if this is needed here, there are little differences
 # To be removed
 # COPY hpfeeds3.py /opt/cowrie/src/cowrie/output/
+
+# Fix permissions
+RUN chgrp -R 0 /data && \
+    chmod -R g=u /data && \
+    chown -R cowrie /data && \
+    chgrp -R 0 /opt/cowrie && \
+    chmod -R g=u /opt/cowrie && \
+    chown -R cowrie /opt/cowrie && \
+    chown -R cowrie /etc/cowrie
 
 RUN chmod +x /code/entrypoint.sh
 
