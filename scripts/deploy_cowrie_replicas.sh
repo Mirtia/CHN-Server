@@ -52,6 +52,7 @@ services:
     restart: always
     volumes:
       - configs${i}:/etc/cowrie
+      - ./data${i}:/data
     ports:
       - "$((2222 + i)):2222"
       - "$((23 + i)):2223"
