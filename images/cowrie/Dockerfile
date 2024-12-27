@@ -15,7 +15,6 @@ COPY entrypoint.sh /code/
 COPY config/cowrie.reference.cfg /code/
 COPY requirements.txt /code/
 COPY config/cowrie.nopubkey.cfg /code/cowrie.reference.cfg
-COPY hpfeeds3.py /opt/cowrie/src/cowrie/output/
 
 # Add the cowrie user
 RUN useradd -m -s /bin/bash cowrie
@@ -27,8 +26,9 @@ RUN apt-get update \
     && cd /opt \
     && git clone --branch "${COWRIE_VERS}" http://github.com/cowrie/cowrie \
     && pip3 install -r /opt/cowrie/requirements.txt \
-    && pip3 install -r /opt/cowrie/requirements-output.txt \
-    && cp /opt/cowrie/etc/userdb.example /opt/cowrie/etc/userdb.txt \
+    && pip3 install -r /opt/cowrie/requirements-output.txt
+    
+RUN cp /opt/cowrie/etc/userdb.example /opt/cowrie/etc/userdb.txt \
     && bash -c "touch /etc/authbind/byport/{1..1024}" \
     && chmod 755 /etc/authbind/byport/* \
     && chown -R cowrie:cowrie /data /etc/cowrie /opt/cowrie \
@@ -36,6 +36,8 @@ RUN apt-get update \
     && apt-get remove -y git gcc python3-dev libssl-dev \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+
+COPY hpfeeds3.py /opt/cowrie/src/cowrie/output/
 
 RUN chmod +x /code/entrypoint.sh
 
