@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTANCE_COUNT=10
+INSTANCE_COUNT=${1:-10}
 
 for ((i=1; i<=INSTANCE_COUNT; i++)); do
   echo "Starting instance $i..."
