@@ -33,6 +33,8 @@ straightforward as possible.
 - Modified the deploy scripts (`/scripts`) to accept the necessary arguments and parameters (`API_KEY`).
 - Removed `ARCH` flag from deploy scripts.
 - Added the option for outbound traffic to the configuration files. Modified `Dockerfile` and pushed new images.
+- Added optional argument to `utils` scripts.
+- Pushed new images to `1.9.1`.
 
 ### Fixed
 - Added `--no-check-certificate` on the `wget` command in the `manage-deploy` view.
@@ -41,3 +43,4 @@ straightforward as possible.
 - Replaced `replica` with loop, so that each instance can have its own `.env` file.
 - Added command to stop `cowrie` at entrypoint to mitigate issue with `Another twistd server is running`.
 - Removed instace `-i` argument when instances are specified to `None` which is now the default value.
+- Fixed docker image, removed multistage builds.

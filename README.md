@@ -14,3 +14,16 @@ Find the documentation here: [https://communityhoneynetwork.readthedocs.io](http
 - [x] See issue with deploy-key `or` maybe remove the deploy-key entirely. (There is no reason for that).
 - [x] Set default config for `cowrie` for ease of testing.
 - [ ] [Known hosts for the containers](https://www.linkedin.com/pulse/learn-how-access-docker-container-its-name-from-host-renato-rodrigues/) May be useful when trying out the botnet.
+
+## Guide
+
+- Create a folder called `deploy` and go to the created directory
+```sh
+mkdir -p deploy
+cd deploy
+```
+- Copy the `utils` scripts to `deploy`
+```sh
+cp -r ../utils/ .
+```
+- Download your deploy scripts in that directory from the interface of chn-network

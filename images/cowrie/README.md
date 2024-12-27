@@ -11,5 +11,5 @@ docker pull mirtia/chn-cowrie
 
 ```sh
 # After setting up for multiplatform builds
-docker buildx build --platform linux/amd64,linux/arm64 -t <registry>/chn-cowrie:1.9.1 --build-arg COWRIE_VERSION=1.9.1 --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t <registry>/chn-cowrie:1.9.1 --push .
 ```
