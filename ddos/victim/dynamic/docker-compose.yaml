@@ -6,7 +6,9 @@ services:
     ports:
       - "5002:5000"
     networks:
-      - victim-network
+      victim-network:
+	aliases:
+	  - dynamic-victim
     # Putting hardware limits
     mem_limit: 256m 
     cpus: "0.5"

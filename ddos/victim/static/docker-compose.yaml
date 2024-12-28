@@ -9,7 +9,9 @@ services:
       - ./index.html:/usr/share/nginx/html/index.html:ro
       - ./logs:/var/log/nginx
     networks:
-      - victim-network
+      victim-network:
+	aliases:
+	  - static-victim
     # Putting hardware limits
     mem_limit: 256m 
     cpus: "0.5"

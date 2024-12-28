@@ -126,7 +126,7 @@ slowloris 172.19.0.2 -p 5000 -s 500
 
 ## Further on DDoS
 
-## Slowris
+### Slowris
 
 I got it from the source repository 
 
@@ -145,7 +145,7 @@ python3 slowloris.py localhost -p 5002 -s 100 -v
 
 - `-v`: Verbose output to see the logs.
 
-## RUDY
+### RUDY
 
 This attacks are performed by opening fewr connections for a longer period and keeping them open as long as possible (depending on the resources of the attacker's machine). It opens concurrent POST HTTP connections and send payloads of varying sizes. It can be customised to send specific files as payloads, but by default is send a random payload of 1MB size.
 
@@ -177,3 +177,109 @@ which prove that the nginx cannot handle the concurrent requests.
 
 Improtant is that I could not run the commands for loads of concurrent requests with a large payload (e.g, 5GB) withouth my host running out of memory. But imagine running this scripts from different bots in our botnet. This will for sure bring down the server. 
 <<>>
+
+## NGINX Config 
+
+Configuring proxy to forward to the two victims 
+also added aliasing for the names dynamic-victim and static-victim on the docker-compose.yaml on both static and dynamic. Also added some logs to see what is going on when the attack is made. 
+
+```sh
+events {
+    worker_connections 1024; 
+}
+
+
+http {
+    server {
+        listen 80;
+
+        # Forward to the dynamic victim
+        location /dynamic {
+            proxy_pass http://dynamic-victim:5000/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_buffering off;
+	    # Logs
+            access_log /var/log/nginx/dynamic_access.log;
+            error_log /var/log/nginx/dynamic_error.log debug;
+        }
+
+        # Forward to the static victim
+        location /static {
+            proxy_pass http://static-victim:80/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_buffering off;
+            # Logs
+	    access_log /var/log/nginx/static_access.log;
+	    error_log /var/log/nginx/static_error.log debug;
+        }
+    }
+}
+
+```
+
+## Botnet container 
+
+Made a Dockerfile 
+
+```sh 
+FROM python:3.9-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy all files from the current directory into the container
+COPY . /app
+
+# Install the required Python dependencies
+RUN pip install -r requirements.txt
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    bash \
+    && apt-get clean
+
+# Make the attack script executable
+RUN chmod +x /app/run_attack.sh
+
+ENTRYPOINT ["/bin/bash"]
+```
+
+Build botnet container 
+
+```sh
+docker build -t botnet-container .
+```
+
+Run it and attach it to chn-network 
+
+```sh
+docker run -it --name botnet 
+  --network chn-network \
+  botnet-container
+```
+
+Then the botnet cli must be set up inside the container 
+
+```sh
+python setup.py install
+```
+
+Some issues with missing dependencies needs additionally 
+
+```sh
+pip install simple-term-menu
+```
+
+Install also vim so we can modify the script
+
+```sh
+apt-get update && apt-get install -y vim
+```
+
+I had a script that used the AYDY ddos method but this needs go to be installed. But since we are to attack the victims through the honeypots we would need to have go installed there which I tried to do using the script. After many attempts, trying forward the attack from cowrie to the victims I was not succesful but the hpdfeeds work and we have the attacks on cowrie at chn server. If I am not mistaken the reason why the remote execution does not work is because of the ssh keys that **Myrto** mentioned.
