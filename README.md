@@ -156,15 +156,18 @@ compose_up.sh 20
 If you want to remove all the containers and their volumes, use:
 ```sh
 # Specifying the number of instances
-compose_down.sh 
+compose_down.sh 20
 ```
 
-If there are issues with the container port mapped ranges, you can modify them to map to a different range.
+If there are issues with the container port mapped ranges, you can modify them to map to a different range. The port range may start to get out of hand as the number of instances grow.
 
 ## TODO
 
 - [x] Add replicas support (good for automation) `or` generate multiple compose files: *cowrie-1*, *cowrie-2* with increasing assigned range. I already have some silly scripts that I can improve.
 - [x] See issue with deploy-key `or` maybe remove the deploy-key entirely. (There is no reason for that).
 - [x] Set default config for `cowrie` for ease of testing.
-- [ ] [Known hosts for the containers](https://www.linkedin.com/pulse/learn-how-access-docker-container-its-name-from-host-renato-rodrigues/) May be useful when trying out the botnet.
-- [ ] TBD
+- [-] [Known hosts for the containers](https://www.linkedin.com/pulse/learn-how-access-docker-container-its-name-from-host-renato-rodrigues/) May be useful when trying out the botnet.
+- [ ] Try out CnC with CHN-Server
+- [ ] Choose a DDoS approach
+- [ ] Try out the DDoS along with CnC and CHN-Server
+- [ ] Enrich documentation and steps for reproducibility
