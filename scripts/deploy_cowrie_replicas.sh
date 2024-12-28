@@ -44,6 +44,7 @@ if [ -z "$API_KEY" ]; then
 fi
 
 for ((i=1; i<=INSTANCE_COUNT; i++)); do
+  CONFIGS_VOL="configs${i}"
   # Create a docker-compose file and .env for each instance
   cat << EOF > ./docker-compose-${i}.yml
 services:
@@ -51,8 +52,7 @@ services:
     image: mirtia/chn-cowrie:${VERSION}
     restart: always
     volumes:
-      - configs${i}:/etc/cowrie
-      - ./data${i}:/data
+      - ${CONFIGS_VOL}:/etc/cowrie
     ports:
       - "$((2222 + i)):2222"
       - "$((23 + i)):2223"
@@ -62,7 +62,7 @@ services:
       - chn-network
 
 volumes:
-  configs${i}:
+  ${CONFIGS_VOL}:
 
 networks:
   chn-network:
