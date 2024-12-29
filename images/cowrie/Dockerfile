@@ -13,7 +13,7 @@ RUN mkdir -p /code /etc/cowrie
 COPY chn-register.py /code/
 COPY entrypoint.sh /code/
 COPY requirements.txt /code/
-COPY config/cowrie.nopubkey.cfg /code/cowrie.reference.cfg
+COPY config/cowrie.custom.cfg /code/cowrie.reference.cfg
 
 # Add the cowrie user
 RUN useradd -m -s /bin/bash cowrie
