@@ -151,6 +151,17 @@ Improtant is that I could not run the commands for loads of concurrent requests 
 Configuring proxy to forward to the two victims 
 also added aliasing for the names dynamic-victim and static-victim on the docker-compose.yaml on both static and dynamic. Also added some logs to see what is going on when the attack is made. 
 
+For the reverse proxy to recognise the names of the victims we need to add the aliases on the docker compose files of each of the victims. 
+
+For example, networks field for the dynamic victim should look like:
+
+```sh
+networks:
+      victim-network:
+	aliases:
+	  - dynamic-victim
+```
+
 ```sh
 events {
     worker_connections 1024; 
