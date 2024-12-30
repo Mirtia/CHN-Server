@@ -176,6 +176,5 @@ If there are issues with the container port mapped ranges, you can modify them t
 - [x] See issue with deploy-key `or` maybe remove the deploy-key entirely. (There is no reason for that).
 - [x] Set default config for `cowrie` for ease of testing.
 - [x] Try out CnC with CHN-Server
-- [-] Choose a DDoS approach
-- [ ] Try out the DDoS along with CnC and CHN-Server
 - [x] Enrich documentation and steps for reproducibility
+- [ ] Try out the DDoS along with CnC and CHN-Server
