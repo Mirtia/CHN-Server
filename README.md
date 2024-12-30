@@ -177,4 +177,4 @@ If there are issues with the container port mapped ranges, you can modify them t
 - [x] Set default config for `cowrie` for ease of testing.
 - [x] Try out CnC with CHN-Server
 - [x] Enrich documentation and steps for reproducibility
-- [ ] Try out the DDoS along with CnC and CHN-Server
+- [x] Try out the DDoS along with CnC and CHN-Server
