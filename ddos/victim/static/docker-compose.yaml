@@ -10,11 +10,14 @@ services:
       - ./logs:/var/log/nginx
     networks:
       victim-network:
-	aliases:
-	  - static-victim
+        aliases:
+          - static-victim
     # Putting hardware limits
-    mem_limit: 256m 
-    cpus: "0.5"
+    mem_limit: 256m
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
     restart: always
 
 networks:

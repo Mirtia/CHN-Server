@@ -6,10 +6,15 @@ services:
     ports:
       - "5001:5000"
     networks:
-      - victim-network
+      victim-network:
+        aliases:
+          - baseline-victim
     # Putting hardware limits
     mem_limit: 256m 
-    cpus: "0.5"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
     restart: always
     
 networks:

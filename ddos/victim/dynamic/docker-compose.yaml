@@ -7,13 +7,16 @@ services:
       - "5002:5000"
     networks:
       victim-network:
-	aliases:
-	  - dynamic-victim
-    # Putting hardware limits
+        aliases:
+          - dynamic-victim
+    # Setting hardware limits
     mem_limit: 256m 
-    cpus: "0.5"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
     restart: always
-    
+
 networks:
   victim-network:
     external: true
